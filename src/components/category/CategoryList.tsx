@@ -1,37 +1,38 @@
-import React from 'react';
-import Api, { ICategory } from '../../api/fooddb/categories';
+import React, { FunctionComponent } from 'react';
+import Api, { Category } from '../../api/fooddb/categories';
 import CatalogItemCard from './CategoryCard';
 
-type CategoryListState = {
-  categories: ICategory[];
+type CategoryListProp = {
+  selectCategoryHandler: (category: string) => void;
 };
 
-class CategoryList extends React.Component<{}, CategoryListState> {
-  constructor(props: any) {
-    super(props);
-    this.state = { categories: [] };
-  }
+const CategoryList: FunctionComponent<CategoryListProp> = ({
+  selectCategoryHandler,
+}) => {
+  const [categories, setCategories] = React.useState<Category[]>([]);
 
-  componentDidMount() {
-    Api.getCategories().then(resp => this.setState({ categories: resp }));
-  }
+  // Fetch list of categories
+  React.useEffect(() => {
+    Api.getCategories().then(listOfCategories =>
+      setCategories(listOfCategories)
+    );
+  }, []);
 
-  render() {
-    return this.state.categories ? (
+  return (
+    <>
       <div className="flex justify-center flex-wrap px-3">
-        {this.state.categories.map(category => (
+        {categories.map(category => (
           <div key={category.id} className="m-1">
             <CatalogItemCard
               label={category.label}
               thumbnail={category.thumbnail}
+              onClick={selectCategoryHandler}
             />
           </div>
         ))}
       </div>
-    ) : (
-      <div>Loading...</div>
-    );
-  }
-}
+    </>
+  );
+};
 
 export default CategoryList;
