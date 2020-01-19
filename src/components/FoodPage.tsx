@@ -9,9 +9,13 @@ const FoodPage: FunctionComponent = () => {
   };
 
   return (
-    <div className="mt-20">
-      <CategoryList selectCategoryHandler={handleSelectCategory} />
-      <MealList category={selectedCategory} />
+    <div className="h-full flex flex-col">
+      <div className="flex-none py-2">
+        <CategoryList selectCategoryHandler={handleSelectCategory} />
+      </div>
+      <div className="flex-initial overflow-y-scroll">
+        <MealList category={selectedCategory} />
+      </div>
     </div>
   );
 };

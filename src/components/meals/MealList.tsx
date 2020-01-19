@@ -15,7 +15,7 @@ const MealList: FunctionComponent<Prop> = ({ category }) => {
   }, [category]);
 
   return (
-    <div className="flex flex-wrap justify-center items-stretch content-between mt-16">
+    <div className="flex flex-wrap justify-center items-stretch content-between">
       {meals.length > 0
         ? meals.map(m => (
             <div key={m.id} className="flex-grow-1 p-1 lg:p-3 xl:p-3">

@@ -19,19 +19,17 @@ const CategoryList: FunctionComponent<CategoryListProp> = ({
   }, []);
 
   return (
-    <>
-      <div className="flex justify-center flex-wrap px-3">
-        {categories.map(category => (
-          <div key={category.id} className="m-1">
-            <CatalogItemCard
-              label={category.label}
-              thumbnail={category.thumbnail}
-              onClick={selectCategoryHandler}
-            />
-          </div>
-        ))}
-      </div>
-    </>
+    <div className="h-full flex justify-center flex-wrap">
+      {categories.map(category => (
+        <div key={category.id} className="m-1">
+          <CatalogItemCard
+            label={category.label}
+            thumbnail={category.thumbnail}
+            onClick={selectCategoryHandler}
+          />
+        </div>
+      ))}
+    </div>
   );
 };
 
