@@ -9,12 +9,10 @@ const FoodPage: FunctionComponent = () => {
   };
 
   return (
-    <>
-      <div className="mt-20">
-        <CategoryList selectCategoryHandler={handleSelectCategory} />
-        <MealList category={selectedCategory} />
-      </div>
-    </>
+    <div className="mt-20">
+      <CategoryList selectCategoryHandler={handleSelectCategory} />
+      <MealList category={selectedCategory} />
+    </div>
   );
 };
 
