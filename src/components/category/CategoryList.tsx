@@ -3,11 +3,11 @@ import Api, { Category } from '../../api/fooddb/categories';
 import CatalogItemCard from './CategoryCard';
 
 type CategoryListProp = {
-  selectCategoryHandler: (category: string) => void;
+  onClickHandler: (category: string) => void;
 };
 
 const CategoryList: FunctionComponent<CategoryListProp> = ({
-  selectCategoryHandler,
+  onClickHandler,
 }) => {
   const [categories, setCategories] = React.useState<Category[]>([]);
 
@@ -25,7 +25,7 @@ const CategoryList: FunctionComponent<CategoryListProp> = ({
           <CatalogItemCard
             label={category.label}
             thumbnail={category.thumbnail}
-            onClick={selectCategoryHandler}
+            onClick={onClickHandler}
           />
         </div>
       ))}

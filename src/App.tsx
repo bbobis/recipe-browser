@@ -1,5 +1,5 @@
 import React from 'react';
-import FoodPage from './components/FoodPage';
+import MealsPage from './components/meals/MealsPage';
 import NavigationBar from './components/NavigationBar';
 
 const App = () => (
@@ -8,7 +8,7 @@ const App = () => (
       <NavigationBar />
     </div>
     <div className="flex-initial overflow-hidden">
-      <FoodPage />
+      <MealsPage />
     </div>
   </div>
 );
