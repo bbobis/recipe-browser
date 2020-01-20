@@ -98,7 +98,7 @@ async function getMeals(param: string | number): Promise<Meal[] | Meal> {
         thumbnail: m.strMealThumb,
         instructions: m.strInstructions,
         tags: extractTags(m.strTags),
-        youTubeURL: m.strYoutube,
+        youTubeURL: makeEmbedable(m.strYoutube),
         ingredients: extractIngredients(m),
       }));
 
@@ -122,6 +122,13 @@ const extractTags = (tags: UndefinedNullString) => {
     return tags.split(',');
   }
   return [];
+};
+
+const makeEmbedable = (youtubeURL: UndefinedNullString) => {
+  if (youtubeURL) {
+    return youtubeURL.replace('/watch?v=', '/embed/');
+  }
+  return '';
 };
 
 const extractIngredients = (meal: ApiResponseMealIngredients): Ingredient[] => {

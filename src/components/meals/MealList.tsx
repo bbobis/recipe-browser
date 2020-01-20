@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from 'react';
+import { Link, RouteComponentProps } from '@reach/router';
 import MealCard from './MealCard';
 import Api, { Meal } from '../../api/fooddb/meals';
 import CategoryList from '../category/CategoryList';
 
-const MealList: FunctionComponent<{}> = () => {
+const MealList: FunctionComponent<RouteComponentProps> = () => {
   const [category, setCategory] = React.useState('beef');
   const [meals, setMeals] = React.useState<Meal[]>([]);
 
@@ -23,9 +24,13 @@ const MealList: FunctionComponent<{}> = () => {
         <div className="flex flex-wrap justify-center items-stretch content-between">
           {meals.length > 0
             ? meals.map(m => (
-                <div key={m.id} className="flex-grow-1 p-1 lg:p-3 xl:p-3">
+                <Link
+                  to={`/meals/${m.id}`}
+                  key={m.id}
+                  className="flex-grow-1 p-1 lg:p-3 xl:p-3"
+                >
                   <MealCard {...m} />
-                </div>
+                </Link>
               ))
             : null}
         </div>
