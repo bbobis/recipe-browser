@@ -16,11 +16,11 @@ const MealList: FunctionComponent<RouteComponentProps> = () => {
   const handleCategoryClick = (category: string) => setCategory(category);
 
   return (
-    <div className="h-screen flex flex-col">
-      <div className="flex-none py-2">
+    <div className="flex flex-col">
+      <div className="flex-none py-1">
         <CategoryList onClickHandler={handleCategoryClick} />
       </div>
-      <div className="flex-initial overflow-y-scroll">
+      <div className="flex-1 py-1">
         <div className="flex flex-wrap justify-center items-stretch content-between">
           {meals.length > 0
             ? meals.map(m => (

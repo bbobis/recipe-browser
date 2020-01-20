@@ -68,7 +68,7 @@ export interface Meal {
   id: number;
   name: string;
   thumbnail: string;
-  instructions: string;
+  instructions: string[];
   tags: string[];
   youTubeURL: string;
   ingredients: Ingredient[];
@@ -96,7 +96,7 @@ async function getMeals(param: string | number): Promise<Meal[] | Meal> {
         id: Number(m.idMeal),
         name: m.strMeal,
         thumbnail: m.strMealThumb,
-        instructions: m.strInstructions,
+        instructions: extractInstructions(m.strInstructions),
         tags: extractTags(m.strTags),
         youTubeURL: makeEmbedable(m.strYoutube),
         ingredients: extractIngredients(m),
@@ -119,9 +119,31 @@ async function getMeals(param: string | number): Promise<Meal[] | Meal> {
 
 const extractTags = (tags: UndefinedNullString) => {
   if (tags) {
-    return tags.split(',');
+    return tags.trim().split(',');
   }
   return [];
+};
+
+const extractIngredients = (meal: ApiResponseMealIngredients): Ingredient[] => {
+  const ingredients: Ingredient[] = [];
+  let counter = 1;
+  while (counter <= 20) {
+    const ingredient = meal[`strIngredient${counter}`];
+    const measurement = meal[`strMeasure${counter}`];
+    if (ingredient && measurement) {
+      ingredients.push({
+        ingredient,
+        measurement,
+      });
+    }
+    counter += 1;
+  }
+
+  return ingredients;
+};
+
+const extractInstructions = (instructions = '') => {
+  return [...instructions.trim().split('\r\n')].filter(s => s.length);
 };
 
 const makeEmbedable = (youtubeURL: UndefinedNullString) => {
@@ -129,20 +151,6 @@ const makeEmbedable = (youtubeURL: UndefinedNullString) => {
     return youtubeURL.replace('/watch?v=', '/embed/');
   }
   return '';
-};
-
-const extractIngredients = (meal: ApiResponseMealIngredients): Ingredient[] => {
-  const ingredients: Ingredient[] = [];
-  let counter = 1;
-  while (counter <= 20) {
-    ingredients.push({
-      ingredient: meal[`strIngredient${counter}`],
-      measurement: meal[`strMeasure${counter}`],
-    });
-    counter += 1;
-  }
-
-  return ingredients;
 };
 
 export default {

@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { RouteComponentProps } from '@reach/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import Api, { Meal } from '../../api/fooddb/meals';
 
 type Prop = RouteComponentProps & {
@@ -11,12 +13,15 @@ const MealDetails: FunctionComponent<Prop> = ({ id }) => {
 
   React.useEffect(() => {
     if (id) {
-      Api.getMeals(Number(id)).then(m => setMeal(m), console.error);
+      Api.getMeals(Number(id)).then(m => {
+        setMeal(m);
+        console.log(m.ingredients);
+      }, console.error);
     }
   }, [id]);
 
   return meal ? (
-    <div className="h-screen flex flex-col p-5">
+    <div className="flex flex-col p-5">
       <div className="self-center">
         <iframe
           width="560"
@@ -26,17 +31,42 @@ const MealDetails: FunctionComponent<Prop> = ({ id }) => {
           frameBorder="0"
         ></iframe>
       </div>
-      <div className="flex flex-wrap">
-        <div className="p-2 lg:w-1/2 xl:w-1/2">
-          <p className="text-2xl text-gray-600 uppercase underline">
-            {meal.name}
-          </p>
-          <p className="text-sm text-justify">{meal.instructions}</p>
+      <br />
+      <div className="flex-1 px-5">
+        <p className="font-thin text-lg text-gray-600 uppercase border-b mb-2">
+          Ingredients
+        </p>
+        <div className="px-5">
+          {meal.ingredients.length ? (
+            <ul className="flex flex-wrap text-sm text-justify">
+              {meal.ingredients.map(({ ingredient, measurement }, idx) => (
+                <li className="py-1 w-1/3" key={idx}>
+                  <FontAwesomeIcon
+                    icon={faPlusCircle}
+                    className="text-gray-500"
+                  />{' '}
+                  {ingredient} ({measurement})
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
-        <div className="p-2 lg:w-1/2 xl:w-1/2">
-          <p className="text-2xl text-gray-600 uppercase underline">
-            Ingredients
-          </p>
+      </div>
+      <br />
+      <div className="px-5">
+        <p className="font-thin text-lg text-gray-600 uppercase border-b mb-2">
+          Instructions
+        </p>
+        <div className="px-5">
+          {meal.instructions.length ? (
+            <ul className="list-decimal text-sm text-justify">
+              {meal.instructions.map((text, idx) => (
+                <li className="py-1" key={idx}>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </div>
     </div>
